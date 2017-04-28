@@ -1,0 +1,25 @@
+{
+    "name": "dfmedia/wp-cli-term-rollup",
+    "description": "CLI Command to attach a post to all of a terms ancestors",
+    "type": "wp-cli-package",
+    "homepage": "https://github.com/dfmedia/WP-CLI-Term-Rollup",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ryan Kanner",
+            "homepage": "http://rkanner.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "files": [ "command.php" ]
+    },
+    "require": {
+        "wp-cli/wp-cli": "^1.1.0"
+    },
+    "require-dev": {
+        "behat/behat": "~2.5"
+    }
+}
