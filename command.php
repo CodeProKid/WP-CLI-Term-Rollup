@@ -117,6 +117,8 @@ class DFM_Term_Rollup extends WP_CLI {
 
 					if ( ! empty( $post_terms ) && ! is_wp_error( $post_terms ) && is_array( $post_terms ) ) {
 
+						$ancestors = [];
+
 						foreach ( $post_terms as $term_obj ) {
 
 							// If some id's were passed to specifically passed to do the rollup for, filter
@@ -128,17 +130,18 @@ class DFM_Term_Rollup extends WP_CLI {
 							if ( ! empty( $term_obj->parent ) ) {
 
 								// Get all of the ancestors for the term object
-								$ancestors = get_ancestors( $term_obj->term_id, $taxonomy );
+								$raw_ancestors = get_ancestors( $term_obj->term_id, $taxonomy );
 
 								// Find which of the ancestors are not already attached to the post
-								$ancestors = array_diff( $ancestors, $term_ids );
+								$ancestors = array_merge( array_diff( $raw_ancestors, $term_ids ), $ancestors );
 
-								if ( ! empty( $ancestors ) ) {
-									wp_set_object_terms( $post_id, $ancestors, $taxonomy, true );
-									$term_ids = array_merge( $ancestors, $term_ids );
-								}
 							}
 						}
+
+						if ( ! empty( $ancestors ) ) {
+							wp_set_object_terms( $post_id, array_unique( $ancestors ), $taxonomy, true );
+						}
+
 					}
 				}
 			}
